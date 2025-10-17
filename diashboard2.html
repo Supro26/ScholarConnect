@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="test2.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+      <header>
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <div class="logo">
+      <img src="/ScholarConnect/assets/icons/logo.png" alt="ScholarConnect logo">
+      <h1>ScholarConnect</h1>
+    </div>
+
+    <!-- ✅ Hamburger Icon -->
+    <div class="hamburger" id="hamburger">
+      ☰
+    </div>
+
+    <!-- ✅ Desktop Nav -->
+    <nav class="nav-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="search.html">Scholarships</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="discovery.html">Discovery</a>
+      <a href="admin.html">Admin</a>
+      <a href="login.html">Login</a>
+    </nav>
+
+    <!-- ✅ Mobile Slide Menu -->
+    <nav class="mobile-menu" id="mobileMenu">
+      <a href="index.html" class="active">Home</a>
+      <a href="search.html">Scholarships</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="discovery.html">Discovery</a>
+      <a href="admin.html">Admin</a>
+      <a href="login.html">Login</a>
+    </nav>
+  </header>
+           <!-- Header Banner -->
+        <div class="header-banner"></div>
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Profile Section -->
+        <div class="profile-section">
+            <!-- Avatar -->
+            <div class="profile-avatar">
+                <div class="avatar-icon"><img src="user.png"></div>
+            </div>
+
+            <!-- User Name -->
+            <div class="user-name">USER NAME</div>
+
+            <!-- Edit Profile Button -->
+            <button class="edit-btn">Edit Profile</button>
+
+            <!-- Contact Information -->
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon1"><img src="email.png"></div>
+                    <a href="mailto:usergmailaccount@gmail.com" class="contact-link">usergmailaccount@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon2"><img src="maps-and-flags.png"></div>
+                    <span>west bengal, kolkata</span>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon3"><img src="call.png"></div>
+                    <span>+91-9999999999</span>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Institution Section -->
+            <div class="section">
+                <div class="section-title">Institution</div>
+                <div class="section-content">
+                    <p>Ramakrishna Vivekananda Centenery College</p>
+                    <p>UG</p>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Stats Section -->
+            <div class="stats-section">
+                <div class="stat-item">Scholarships Applied : 3</div>
+                <div class="stat-item">Upcoming Exams : 1</div>
+                <div class="stat-item">Favorites : 5</div>
+            </div>
+            <div class="logoutsec">
+                <button class="log-out">Log Out</button>
+            </div>
+        </div>
+        <div class="calender-section">
+            <div class="calHead">
+                Calendar
+            </div>
+             <div class="calendar-wrapper">
+            <div class="calendar-header">
+                <button onclick="previousMonth()">‹</button>
+                <div class="month-year" id="monthYear"></div>
+                <div class="today-badge" id="todayBadge"></div>
+                <button onclick="nextMonth()">›</button>
+            </div>
+
+            <div class="weekdays">
+                <div class="weekday">S</div>
+                <div class="weekday">M</div>
+                <div class="weekday">T</div>
+                <div class="weekday">W</div>
+                <div class="weekday">T</div>
+                <div class="weekday">F</div>
+                <div class="weekday">S</div>
+            </div>
+
+            <div class="days" id="calendarDays"></div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-title">Legend:</div>
+            <div class="legend-item">
+                <div class="legend-line" style="background: #333;"></div>
+                <span>scholarship deadline: -</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-line" style="background: #888;"></div>
+                <span>scholarship deadline (applied): -</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot"></div>
+                <span>exam: -</span>
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </div>
+        <script>
+        // ===== STEP 1: DEFINE YOUR EVENTS =====
+        // Format: { month: 1-12, day: 1-31, type: 'deadline' | 'applied' | 'exam' }
+        const events = [
+            { month: 10, day: 3, type: 'exam' },           // Oct 3 - exam
+            { month: 10, day: 9, type: 'deadline' },       // Oct 9 - deadline
+            { month: 10, day: 10, type: 'exam' },          // Oct 10 - exam
+            { month: 10, day: 15, type: 'deadline' },      // Oct 15 - deadline
+            { month: 10, day: 22, type: 'exam' },          // Oct 22 - exam
+            { month: 10, day: 29, type: 'exam' },          // Oct 29 - exam
+            { month: 10, day: 31, type: 'exam' }           // Oct 31 - exam
+        ];
+
+        // ===== STEP 2: TRACK CURRENT MONTH =====
+        let currentDate = new Date();
+
+        // ===== STEP 3: RENDER CALENDAR =====
+        function renderCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            const today = new Date();
+
+            // Update month/year display
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'];
+            document.getElementById('monthYear').textContent = monthNames[month];
+
+            // Show today's date in badge (only if it's current month)
+            if (today.getMonth() === month && today.getFullYear() === year) {
+                document.getElementById('todayBadge').textContent = today.getDate();
+            } else {
+                document.getElementById('todayBadge').textContent = '';
+            }
+
+            // Get first day of month (0 = Sunday, 1 = Monday, etc.)
+            const firstDay = new Date(year, month, 1).getDay();
+            
+            // Get number of days in month
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            
+            // Get number of days in previous month
+            const daysInPrevMonth = new Date(year, month, 0).getDate();
+
+            const calendarDays = document.getElementById('calendarDays');
+            calendarDays.innerHTML = '';
+
+            // Add previous month's days
+            for (let i = firstDay - 1; i >= 0; i--) {
+                const day = document.createElement('div');
+                day.className = 'day other-month';
+                day.textContent = daysInPrevMonth - i;
+                calendarDays.appendChild(day);
+            }
+
+            // Add current month's days
+            for (let date = 1; date <= daysInMonth; date++) {
+                const day = document.createElement('div');
+                day.className = 'day';
+                day.textContent = date;
+
+                // Check if it's today
+                if (today.getDate() === date && today.getMonth() === month && today.getFullYear() === year) {
+                    day.classList.add('today');
+                }
+
+                // Check if this day has events
+                const dayEvents = events.filter(e => e.month === month + 1 && e.day === date);
+                if (dayEvents.length > 0) {
+                    day.classList.add('has-event');
+                    
+                    // Add event indicators
+                    dayEvents.forEach(event => {
+                        const indicator = document.createElement('div');
+                        indicator.className = `event-indicator ${event.type}`;
+                        day.appendChild(indicator);
+                    });
+                }
+
+                calendarDays.appendChild(day);
+            }
+
+            // Add next month's days
+            const totalCells = calendarDays.children.length;
+            const remainingCells = 42 - totalCells;
+            for (let date = 1; date <= remainingCells; date++) {
+                const day = document.createElement('div');
+                day.className = 'day other-month';
+                day.textContent = date;
+                calendarDays.appendChild(day);
+            }
+        }
+
+        // ===== STEP 4: NAVIGATION FUNCTIONS =====
+        function previousMonth() {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendar();
+        }
+
+        function nextMonth() {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendar();
+        }
+
+        // ===== STEP 5: INITIALIZE =====
+        renderCalendar();
+    </script>
+</body>
+</html>
